@@ -67,10 +67,10 @@ export class Auth0ActionsPostLogin {
    * @param event Auth0PostLoginEvent
    * @param api Auth0PostLoginApi
    */
-  static async disableMultifactorAuthentication(
+  static disableMultifactorAuthentication(
     _event: Auth0PostLoginEvent,
     api: Auth0PostLoginApi,
-  ): Promise<void> {
+  ): void {
     api.multifactor.enable('none');
   }
 }
