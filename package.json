@@ -1,0 +1,37 @@
+{
+  "name": "@vedicium/auth0-actions-sdk",
+  "version": "0.0.1",
+  "description": "Auth0 Actions SDK - Containing pre-defined rules and types regarding Auth0 Actions",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "npm run lint:build && rimraf dist",
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write \"/src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "npm run lint:build --fix",
+    "lint:build": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VeDicium/auth0-actions-sdk.git"
+  },
+  "author": "VeDicium B.V.",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/VeDicium/auth0-actions-sdk/issues"
+  },
+  "homepage": "https://github.com/VeDicium/auth0-actions-sdk#readme",
+  "dependencies": {
+    "auth0": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/auth0": "^2.34.12",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0"
+  }
+}
