@@ -2,9 +2,14 @@ import {
   ManagementClient as Auth0ManagementClient,
   User as Auth0User,
 } from 'auth0';
+
 import { CUSTOM_CLAIM_DEFAULT_NAMESPACE } from '../auth0-actions.constants';
 import { Auth0PostLoginApi, Auth0PostLoginEvent } from '../../../interfaces';
-import { Auth0ActionsPostLoginLinkSocialConnectionsByEmailOptions } from '../interfaces';
+import {
+  Auth0ActionsPostLoginForceMultifactorAuthenticationIfConfiguredOptions,
+  Auth0ActionsPostLoginLinkSocialConnectionsByEmailOptions,
+} from '../interfaces';
+import { Auth0Utils } from '../../auth0-utils';
 
 export class Auth0ActionsPostLogin {
   /**
@@ -72,5 +77,36 @@ export class Auth0ActionsPostLogin {
     api: Auth0PostLoginApi,
   ): void {
     api.multifactor.enable('none');
+  }
+
+  /**
+   * Force Multifactor Authentication when the user has a Multifactor Authentication method enabled.
+   *
+   * @param event Auth0PostLoginEvent
+   * @param api Auth0PostLoginApi
+   * @param options Auth0ActionsPostLoginForceMultifactorAuthenticationIfConfiguredOptions
+   */
+  static forceMultifactorAuthenticationIfConfigured(
+    event: Auth0PostLoginEvent,
+    api: Auth0PostLoginApi,
+    options?: Auth0ActionsPostLoginForceMultifactorAuthenticationIfConfiguredOptions,
+  ): void {
+    // When no multifactor authentication method is configured, quit.
+    if (
+      Auth0Utils.PostLogin.isMultifactorAuthenticationConfigured(event) ===
+      false
+    ) {
+      return;
+    }
+
+    // When disabled on social logins and the login is via a social connection, quit.
+    if (options?.disableOnSocialLogin === true) {
+      if (Auth0Utils.PostLogin.isSocialLogin(event) === true) {
+        return;
+      }
+    }
+
+    // Enable multifactor authentication
+    api.multifactor.enable('any', options);
   }
 }
