@@ -102,7 +102,7 @@ export class Auth0ActionsPostLogin {
     // When disabled on social logins and the login is via a social connection, quit.
     if (options?.disableOnSocialLogin === true) {
       if (Auth0Utils.PostLogin.isSocialLogin(event) === true) {
-        return;
+        return this.disableMultifactorAuthentication(event, api);
       }
     }
 
