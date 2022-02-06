@@ -1,0 +1,28 @@
+name: Run versionist
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  versionist:
+    name: Versionist
+    if: "!contains(github.event.head_commit.author.name, 'VeDiciumBot')"   # Ignore push events made by the service account
+    runs-on: ubuntu-latest
+    outputs:                                              # (optional) Only if you want to use them in next jobs
+      version: ${{ steps.versionist.outputs.version }}    # version: project's version after running versionist
+      updated: ${{ steps.versionist.outputs.updated }}    # updated: true if the version has been updated
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0                                    # We need all commits and tags
+        persist-credentials: false                        # Next step needs to use service account's token
+    - name: Run versionist
+      id: versionist                                      # (optional) Only needed if using outputs
+      uses: bartversluijs/versionist-gh@master
+      with:
+        commit: true
+        github_email: 'github@vedicium.com'
+        github_username: 'VeDiciumBot'
+        github_token: ${{ secrets.GH_VERSIONIST_TOKEN }}

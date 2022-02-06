@@ -1,0 +1,34 @@
+name: Verify PR
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  versionist:
+    name: Versionist
+    runs-on: ubuntu-latest
+    outputs:                                              # (optional) Only if you want to use them in next jobs
+      version: ${{ steps.versionist.outputs.version }}    # version: project's version after running versionist
+      updated: ${{ steps.versionist.outputs.updated }}    # updated: true if the version has been updated
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0                                    # We need all commits and tags
+        persist-credentials: false                        # Next step needs to use service account's token
+    - name: Run versionist
+      id: versionist                                      # (optional) Only needed if using outputs
+      uses: bartversluijs/versionist-gh@master
+      with:
+        commit: false
+
+  build:
+    name: Build package
+    needs: [versionist] # If versionist fails, we don't have to try and build the package
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm ci
+    - run: npm run lint:build
+    - run: npm run build
