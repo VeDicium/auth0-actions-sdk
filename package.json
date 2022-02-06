@@ -1,6 +1,6 @@
 {
   "name": "@vedicium/auth0-actions-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Auth0 Actions SDK - Containing pre-defined rules and types regarding Auth0 Actions",
   "main": "dist/index.js",
   "scripts": {
@@ -35,6 +35,6 @@
     "ts-node": "^10.4.0"
   },
   "versionist": {
-    "publishedAt": "2022-02-06T14:57:04.577Z"
+    "publishedAt": "2022-02-06T15:16:44.661Z"
   }
 }
