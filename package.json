@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/VeDicium/auth0-actions-sdk#readme",
   "dependencies": {
-    "auth0": "^2.39.0"
+    "auth0": "^3.0.1"
   },
   "devDependencies": {
     "@types/auth0": "^2.34.12",
